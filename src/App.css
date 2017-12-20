@@ -1,0 +1,42 @@
+.App {
+	text-align: center;
+}
+
+.messages {
+	height: 90vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	padding: 40px 15px;
+}
+
+p {
+	padding: 8px;
+	margin-bottom: 4px;
+	border-radius: 15px;
+}
+
+.input {
+	height: 10vh;
+	background-color: #e5e6ea;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+input {
+	height: 50%;
+	width: 70%;
+	border-radius: 15px;
+	border: 1px solid #c9c9c9;
+	outline: none;
+	font-size: medium;
+	padding: 5px;
+}
+
+button {
+	font-size: 20px;
+	color: #2494ff;
+	border: none;
+	background-color: #e5e6ea;
+}

@@ -3,11 +3,12 @@
 }
 
 .messages {
-	height: 90vh;
+	height: 85vh;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	padding: 40px 15px;
+  padding: 40px 15px;
+  overflow: scroll;
 }
 
 p {
@@ -39,4 +40,18 @@ button {
 	color: #2494ff;
 	border: none;
 	background-color: #e5e6ea;
+}
+
+header {
+	height: 5vh;
+	background-color: #e5e6ea;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+select {
+	margin-left: 15px;
+	font-size: 14px;
+	border: 1px solid;
 }

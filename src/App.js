@@ -67,6 +67,7 @@ class App extends Component {
     return (
       <div className="App">
         <header>
+          <h3>select a room: </h3>
           <select ref="room" defaultValue="1" onChange={this.joinRoom}>
             <option> 1 </option>
             <option> 2 </option>

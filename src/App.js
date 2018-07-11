@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import './App.css';
+import axios from 'axios';
 
 class App extends Component {
   constructor() {
@@ -16,9 +17,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.socket = io('/');
+    this.socket = io();
     this.socket.on('message dispatched', this.updateMessages)
     this.socket.on('welcome', this.setUserId)
+    axios.get("/test").then(res => {
+      console.log(res)
+    })
   }
 
   updateMessages(message) {

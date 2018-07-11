@@ -3,7 +3,9 @@ const express = require('express')
 
 const app = express()
     , io = socket(app.listen(4000, () => console.log('Server listening on port 4000')));
-
+app.get("/test", (req,res) => {
+  res.status(200).send("hi")
+})
 
 io.on('connection', socket => {
   console.log('User Connected');

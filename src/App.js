@@ -8,65 +8,75 @@ class App extends Component {
     super();
     this.state = {
       userID: null,
-      messages: []
-    }
-
-    this.updateMessages = this.updateMessages.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
-    this.setUserId = this.setUserId.bind(this);
+      messages: [],
+      userInput: '',
+    };
   }
 
   componentDidMount() {
     this.socket = io();
-    this.socket.on('message dispatched', this.updateMessages)
-    this.socket.on('welcome', this.setUserId)
-    axios.get("/test").then(res => {
-      console.log(res)
-    })
+    this.socket.on('message dispatched', this.updateMessages);
+    this.socket.on('welcome', this.setUserId);
+    axios.get('/test').then(res => {
+      console.log(res);
+    });
   }
 
-  updateMessages(message) {
-    const updatedMessages = this.state.messages.slice()
-    updatedMessages.push(message)
+  handleInput = e => {
+    this.setState({ userInput: e.target.value });
+  };
+
+  handleEnter = e => {
+    if (e.key !== 'Enter') return;
+    this.sendMessage();
+  };
+
+  updateMessages = message => {
+    const updatedMessages = this.state.messages.slice();
+    updatedMessages.push(message);
     this.setState({
-      messages: updatedMessages
-    })
-  }
+      messages: updatedMessages,
+    });
+  };
 
-  setUserId(user) {
-    this.setState(user)
-  }
+  setUserId = user => {
+    this.setState(user);
+  };
 
-  sendMessage() {
+  sendMessage = () => {
     this.socket.emit('message sent', {
-      message: this.refs.message.value
-    })
-    this.refs.message.value = '';
-  }
+      message: this.state.userInput,
+    });
+    this.setState({ userInput: '' });
+  };
 
   // EVERYONE BUT ME
   // sendMessage() {
-  //   const message = this.refs.message.value
+  //   const message = this.state.userInput
   //   this.socket.emit('message sent', {message})
   //   this.updateMessages({message, user: this.state.userID})
-  //   this.refs.message.value = '';
+  //ß  this.setState(() => ({ userInput: '' }));
   // }
 
   render() {
-    const messages = this.state.messages.map((e,i) => {
-      const styles = e.user === this.state.userID ? {alignSelf: "flex-end", backgroundColor: "#2d96fb", color: "white"} : {alignSelf: "flex-start", backgroundColor: "#e5e6ea"}
+    const { messages, userInput, userID } = this.state;
+    const messagesToDisplay = messages.map((e, i) => {
+      const styles =
+        e.user === userID
+          ? { alignSelf: 'flex-end', backgroundColor: '#2d96fb', color: 'white' }
+          : { alignSelf: 'flex-start', backgroundColor: '#e5e6ea' };
       return (
-        <p key={i} style={styles}>{e.message}</p>
-      )
-    })
+        <p key={i} style={styles}>
+          {e.message}
+        </p>
+      );
+    });
 
     return (
       <div className="App">
-        <div className="messages">
-          {messages}
-        </div>
+        <div className="messages">{messagesToDisplay}</div>
         <div className="input">
-          <input ref="message" />
+          <input value={userInput} onChange={this.handleInput} onKeyPress={this.handleEnter} />
           <button onClick={this.sendMessage}>Send</button>
         </div>
       </div>

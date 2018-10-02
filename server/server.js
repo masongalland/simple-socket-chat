@@ -2,7 +2,7 @@ const express = require('express')
     , socket = require('socket.io');
 
 const app = express()
-    , io = socket(app.listen(4000, () => console.log('Server listening on port 4000')));
+    , io = socket(app.listen(3005, () => console.log('Server listening on port 3005')));
 app.get("/test", (req,res) => {
   res.status(200).send("hi")
 })

@@ -14,6 +14,14 @@ io.on('connection', socket => {
     io.to(data.room).emit('room joined', data.room);
   });
 
+  socket.on('leave room', data => {
+    socket.leave(data.roomLeft);
+    console.log('Room Left', data.roomLeft);
+    socket.join(data.roomJoined);
+    console.log('Room joined', data.roomJoined);
+    io.to(data.roomJoined).emit('room joined', data.roomJoined);
+  });
+
   socket.on('message sent', function(data) {
     data.user = this.id;
     io.to(data.room).emit('message dispatched', data);

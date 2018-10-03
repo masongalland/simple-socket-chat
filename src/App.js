@@ -18,7 +18,7 @@ class App extends Component {
     this.socket.on('message dispatched', this.updateMessages);
     this.socket.on('welcome', this.setUserId);
     this.socket.on('room joined', this.joinSuccess);
-    this.joinRoom('1');
+    this.joinRoom();
   }
 
   handleInput = e => {
@@ -51,13 +51,19 @@ class App extends Component {
   };
 
   joinRoom = room => {
-    this.socket.emit('join room', { room });
-    this.setState({ messages: [], room });
+    if (!room) {
+      this.socket.emit('join room', { room: '1' });
+    } else {
+      this.setState({ messages: [] }, () => {
+        this.socket.emit('leave room', { roomLeft: this.state.room, roomJoined: room });
+      });
+    }
   };
 
-  joinSuccess(room) {
+  joinSuccess = room => {
+    this.setState({ room });
     console.log('you successfully joined room ' + room);
-  }
+  };
 
   render() {
     const { messages, userInput, userID, room } = this.state;
